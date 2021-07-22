@@ -2,13 +2,13 @@ pragma solidity ^0.5.0;
 
 contract Greenance{
 
-    struct balance {                    
+    struct balance {
+        uint wallet;                    
         uint amount;                    
         uint withdraw;
-        uint status;         //  รอเอกสาร = 0 , รับเอกสารแล้ว = 1 , ตรวจสอบผ่านแล้ว = 2 , โอนเหรียญให้แล้ว = 3 , ยุติสัญญาแล้ว = 4             
+        uint status;         //  รอเอกสาร = 0 , รอการตรวจสอบ = 1 , ตรวจสอบผ่านแล้ว = 2 , โอนเหรียญให้แล้ว = 3 , ยุติสัญญาแล้ว = 4             
     }
     mapping (address => balance) balanceMap;
-    mapping (address => uint) balanceof;
     address[] public userAccts;
 
 
@@ -16,24 +16,24 @@ contract Greenance{
     function withDraw(address _wallet,uint _value) public {
         balanceMap[_wallet].amount -= _value;
         balanceMap[_wallet].withdraw += _value;
-        balanceof[_wallet] += _value ;            
+        balanceMap[_wallet].wallet += _value ;            
     }
 
-    function payBack(address _wallet) public {
-        balanceMap[_wallet].amount += balanceMap[_wallet].withdraw;
-        balanceMap[_wallet].withdraw = 0;
-        balanceof[_wallet] -= balanceMap[_wallet].withdraw;
+    function payBack(address _wallet,uint _value) public {
+        balanceMap[_wallet].amount += _value;
+        balanceMap[_wallet].withdraw -= _value;
+        balanceMap[_wallet].wallet -= _value;
     }
 
     
 
     //----------Admin-function----------------------------------
 
-    function setUser(address _wallet) public {
-        balanceMap[_wallet].amount = 0;
-        balanceMap[_wallet].withdraw = 0;
+    function setUser(address _wallet,uint _value1,uint _value2,uint _value3) public {
+        balanceMap[_wallet].amount = _value1;
+        balanceMap[_wallet].withdraw = _value2;
         balanceMap[_wallet].status = 0;
-        balanceof[_wallet] = 0;
+        balanceMap[_wallet].wallet = _value3;
         userAccts.push(_wallet) -1;
     }
 
@@ -67,28 +67,28 @@ contract Greenance{
     }
 
     function setBalof(address _wallet,uint _value) public {
-        balanceof[_wallet] = _value;
+        balanceMap[_wallet].wallet = _value;
     }
     
     //----------Get-function----------------------------------
 
-    function getbalanceof(address _wallet) public view returns (uint){            
-        uint amount = balanceof[_wallet];
+    function getBalanceof() public view returns (uint){            
+        uint amount = balanceMap[msg.sender].wallet;
         return (amount);                                                              
     }
 
-    function getAmount(address _wallet) public view returns (uint){            
-        uint amount = balanceMap[_wallet].amount;
+    function getAmount() public view returns (uint){            
+        uint amount = balanceMap[msg.sender].amount;
         return (amount);                                                              
     }
 
-    function getWithdraw(address _wallet) public view returns (uint){            
-        uint withdraw = balanceMap[_wallet].withdraw;
+    function getWithdraw() public view returns (uint){            
+        uint withdraw = balanceMap[msg.sender].withdraw;
         return (withdraw);                                                              
     }
 
-    function getstatus(address _wallet) public view returns (uint){            
-        uint status = balanceMap[_wallet].status;
+    function getstatus() public view returns (uint){            
+        uint status = balanceMap[msg.sender].status;
         return (status);                                                              
     }
     
