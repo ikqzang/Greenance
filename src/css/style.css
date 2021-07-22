@@ -333,7 +333,14 @@ ul.costomer li a {
 
 .text-bg span {
      color: #42c366;
-     font-size: 60px;
+     font-size: 45px;
+     line-height: 77px;
+     font-weight: bold;
+}
+
+.text-bg h2  {
+     color: #eeae25;
+     font-size: 45px;
      line-height: 77px;
      font-weight: bold;
 }
@@ -808,6 +815,10 @@ $grey: #999;
 
 .white {
      color: #41c365;
+}
+
+.red {
+     color: #e06767;
 }
 
 .cont {

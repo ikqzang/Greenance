@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>CROFT | DeOrganic Marketplace</title>
+      <title>เขียวขจี มีสตางค์</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -72,9 +72,8 @@
                   <div class="row d_flex">
                      <div class="col-md-5">
                         <div class="text-bg">
-                           <span>DeFi</span>
-                           <h2>Marketplace</h2>
-                           <p>Organic Marketplace supplies its customers with highest quality products and services for healthy lifestyles.</p>
+                           <h2><span>เปลี่ยนต้นไม้ </span>เป็นเงิน</h2>                  
+                           <p>แพลตฟอร์มเงินทุนสำหรับผู้ครอบครองต้นไม้ ในรูปแบบการเงินกระจายศูนย์(Decentralized finance) เพื่อเป็นแหล่งเงินทุนให้กับเกษตรกร</p>
                         </div>
                      </div>
                      <div class="col-md-7">
@@ -114,7 +113,7 @@
                      <h2>สถานะการอนุมัติวงเงิน</h2>
                      <h1>--------------------------------------------------------------------------------</h1>
                      <br>
-                     <h2><span class="white">รอได้รับเอกสาร</span></h2>
+                     <h2><span class="white" id = 'status'>----------</span></h2>
                      <br><br><br>
                   </div>
                </div>
@@ -145,14 +144,15 @@
                <div class="col-md-6">
                   <form class="main_form">
                      <div class="titlepage2">
-                        <h2>กระเป๋าหมายเลข  <span class="white">0x00..000</span></h2><br><br>
-                        <h2>มีเหรียญ  <span class="white">00.00</span>  TREE</h2><br><br>
+                        <h2>กระเป๋าหมายเลข  <span class="white" id="WalletAddress2">0x00..000</span></h2><br><br>
+                        <h2>มีเหรียญ  <span class="white" id="WalletBalance2">00.00</span>  TREE</h2><br><br>
+                        <h2>วงเงินถอนรวม  <span class="red" id="Wallet2">00.00</span>  TREE</h2><br><br>
                         <div class="col-sm-12">
-                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="coconutname">
+                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="withdrawval">
                         </div>
                         <br>
                         <div class="col-sm-12">
-                           <button class="send2" id="coconutbuy">ถอน</button>
+                           <button class="send2" id="withdraw-button">ถอน</button>
                         </div>
                      </div>
                   </form>
@@ -184,14 +184,15 @@
                <div class="col-md-6">
                   <form class="main_form">
                      <div class="titlepage2">
-                        <h2>กระเป๋าหมายเลข  <span class="white">0x00..000</span></h2><br><br>
-                        <h2>มีเหรียญ  <span class="white">00.00</span>  TREE</h2><br><br>
+                        <h2>กระเป๋าหมายเลข  <span class="white" id="WalletAddress3">0x00..000</span></h2><br><br>
+                        <h2>มีเหรียญ  <span class="white" id="WalletBalance3">00.00</span>  TREE</h2><br><br>
+                        <h2>ยอดถอนรวม  <span class="red" id="Wallet3">00.00</span>  TREE</h2><br><br>
                         <div class="col-sm-12">
-                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="coconutname">
+                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="paybackval">
                         </div>
                         <br>
                         <div class="col-sm-12">
-                           <button class="send2" id="coconutbuy">คืนเหรียญ</button>
+                           <button class="send2" id="payback-button">คืนเหรียญ</button>
                         </div>
                      </div>
                   </form>
@@ -385,7 +386,6 @@
       </br>
       </br>
       </br>
-      <!-- admin -->
       <div  class="asked_main">
          <div class="container">
             <div class="row">
@@ -400,51 +400,58 @@
             <div class="row">
                <div class="col-md-6">
                   <div class="ask_img">
-                     <figure><img src="images/ask4.jpg" alt="#"/></figure>           <!-- เปลี่ยนรูปตรงนี้ -->
+                     <figure><img src="images/ask4.jpg" alt="#"/></figure>        <!-- เปลี่ยนรูปตรงนี้ -->
                   </div>
                </div>
                <div class="col-md-6">
-                  <form id="contact" action="" method="post">
-                     <fieldset>
-                       <input name="email" type="number" id="withdrawpool" placeholder="จำนวนวงเงินที่ถอนได้" required="" class="contact-field">
-                       <button type="submit" id="set-withdrawpool" class="send2">SET</button>
-                     </fieldset>
-                     <fieldset>
-                       <input name="email" type="number" id="withdrawamount" placeholder="จำนวนเงินที่ถอนไป" required="" class="contact-field">
-                       <button type="submit" id="set-withdrawamount" class="send2">SET</button>
-                     </fieldset>
-                     <fieldset>
-                       <br><br><br>
-                           <h2>SET USER</h2>
+                  <form class="main_form">
+                     <div class="titlepage2">
+                        <h2>Setuser</h2>
+                        </div>
+                        <div class="col-sm-12">
+                           <button class="send2" id="setWallet">SET</button>
+                        </div>
+                        <br><br>            
+                        <h2>SET TOKEN IN WALLET</h2>
+                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="setWalletval">
+                        <br><br>
+                        <h2>เปลี่ยนวงเงิน</h2>
+                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="setAmountval">
+                        <br><br>
+                        <h2>เปลี่ยนเงินที่ถอนออกไป</h2>
+                           <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="setWithdrawval">
 
-                       <button id="set-user" class="send2">SET</button>
-                       <br><br><br>
-                           <h2>SET รับเอกสาร</h2>
-                      
-                       <button  id="ok-documnet" class="send2">OK</button>
-                       <button  id="cc-document" class="send2">Cancel</button>
-                       <br><br><br>
-                           <h2>SET การอนุมัติ</h2>
-                       
-                       <button  id="ok-check" class="send2">OK</button>
-                       <button  id="cc-check" class="send2">Cancel</button>
-                       <br><br><br>
-                           <h2>SET การโอนเหรียญ</h2>
-                       <input name="email" type="number" id="withdraw-tree-set" placeholder="จำนวนวงเงินอนุมัติ" required="" class="contact-field">
-                       <button  id="ok-sendtoken" class="send2">OK</button>
-                       <br><br><br>
-                       <h2>SET การยุติสัญญา</h2>
-                       <button  id="ok-close" class="send2">OK</button>
-                       <br><br><br>
-                     </fieldset>
+                        <br><br>
+                        <h2>SET รับเอกสาร</h2>
+                        <div class="col-sm-12">
+                           <button class="send2" id="setStatusto1">SET</button>
+                        </div>
+                        <br><br>
+                        <h2>SET การอนุมัติ</h2>
+                        <div class="col-sm-12">
+                           <button class="send2" id="setStatusto2">SET</button>
+                        </div>
+                        <br><br>
+                        <h2>SET การโอนเหรียญ</h2>
+                        <input class="contactus" placeholder="จำนวนเงินที่จะถอน" type="text" name="Full Name" id="coconutname">
+                        
+                        <div class="col-sm-12">
+                           <button class="send2" id="sendtoken">SET</button>  
+                        </div>
+                        <br><br>
+                        <h2>SET การยุติสัญญา</h2>
+                        <div class="col-sm-12">
+                           <button class="send2" id="closeContract">SET</button>
+                        </div>
 
-               </form>
+                     </div>
+                  </form>
                </div>
             </div>
          </div>
       </div>
       </div>
-      <!-- end Asked -->
+   
 
       <!-- Javascript files-->
       <script src="js/jquery.min.js"></script>

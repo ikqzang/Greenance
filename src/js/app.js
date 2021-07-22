@@ -34,13 +34,13 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('Shop.json', function(data) {
+    $.getJSON('Greenance.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract.
-      var ShopArtifact = data;
-      App.contracts.Shop = TruffleContract(ShopArtifact);
+      var GreenanceArtifact = data;
+      App.contracts.Greenance = TruffleContract(GreenanceArtifact);
 
       // Set the provider for our contract.
-      App.contracts.Shop.setProvider(App.web3Provider);
+      App.contracts.Greenance.setProvider(App.web3Provider);
 
       // Use our contract to retieve and mark the adopted pets.
       return App.getData();
@@ -51,250 +51,221 @@ App = {
   
 
     bindEvents: function() {
-        $(document).on('click', '#durainbuy', App.buydurian);
-        $(document).on('click', '#coconutbuy', App.buycoconut);
-        $(document).on('click', '#pomelobuy', App.buypomelo);
-        $(document).on('click', '#setstockbutton', App.setstock);      
-        $(document).on('click', '#setbalancebutton', App.setbalance); 
-    },
+        $(document).on('click', '#withdraw-button', App.withdraw);
+        $(document).on('click', '#payback-button', App.payback);
+        $(document).on('click', '#setWallet', App.setWallet);
+        $(document).on('click', '#setStatusto1', App.setStatusto1);
+        $(document).on('click', '#setStatusto2', App.setStatusto2);
+        $(document).on('click', '#sendtoken-button', App.sendtoken);
+        $(document).on('click', '#closeContract', App.closeContract);
+        },
   
-    buydurian: function() {
-      
-      
-      var fullname = ($('#durianname').val());
-      var tel = $('#durianphone').val();
-      var location = $('#durianAddress').val();
-  
+    withdraw: function() {
       var account = web3.eth.accounts[0];
-      var ShopInstance;
-
-      App.contracts.Shop.deployed().then(function (instance) {     // get GoldWinner
-        ShopInstance = instance;
-
-      return ShopInstance.getdurianstock.call();}).then(function (durianstock)
-      {
-         
-          if (durianstock > 0) {
-            var ShopInstance;
-              
-            App.contracts.Shop.deployed().then(function (instance) {     
-                ShopInstance = instance;
-
-            return ShopInstance.buyDurian(account,fullname,tel,location,{from: account});
-            }).then(function (result)
-            {
-                
-              alert("ซื้อทุเรียนสำเร็จ");
-                
-            }).catch(function (err) {
-                console.log(err.message);
-            });
-
-              
-            }
-
-          
-          else {
-            alert("ทุเรียนหมด");
-          }
-        
-        }).catch(function (err) {
-          console.log(err.message);
-        });
+        var value = $('#withdrawval').val();
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.withDraw(account,value,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("การถอนเหรียญสำเร็จ");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
     },
 
-buycoconut: function() {
-      
-  var fullname = ($('#coconutname').val());
-  var tel = $('#coconutphone').val();
-  var location = $('#coconutAddress').val();
-
-  var account = web3.eth.accounts[0];
-  var ShopInstance;
-
-  App.contracts.Shop.deployed().then(function (instance) {     // get GoldWinner
-    ShopInstance = instance;
-
-  return ShopInstance.getcoconutstock.call();}).then(function (coconutstock)
-  {
-     
-      if (coconutstock > 0) {
-        var ShopInstance;
+    payback: function() {
+      var account = web3.eth.accounts[0];
+        var value = $('#paybackval').val();
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.payBack(account,value,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("การคืนเหรียญสำเร็จ");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
           
-        App.contracts.Shop.deployed().then(function (instance) {     
-            ShopInstance = instance;
+    },
 
-        return ShopInstance.buyCoconut(account,fullname,tel,location,{from: account});
-        }).then(function (result)
-        {
-            
-          alert("ซื้อมะพร้าวสำเร็จ");
-            
-        }).catch(function (err) {
-            console.log(err.message);
-        });
-
+    setWallet: function() {
+      var account = web3.eth.accounts[0];
+      var value = $('#setAmountval').val();
+      var value2 = $('#setWithdrawval').val();
+      var value3 = $('#setWalletval').val();
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.setUser(account,value,value2,value3,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("เปิดบัญชีสำเร็จ");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
           
-        }
+    },
 
-      
-      else {
-        alert("มะพร้าวหมด");
-      }
+    setStatusto1: function() {
+      var account = web3.eth.accounts[0];
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.changeStatus(account,1,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("เปลี่ยนสถานะเป็น : รอการตรวจสอบ");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
+          
+    },
+
+    setStatusto2: function() {
+      var account = web3.eth.accounts[0];
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.changeStatus(account,2,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("เปลี่ยนสถานะเป็น : ตรวจสอบผ่านแล้ว");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
+          
+          
+    },
+
+    sendtoken: function() {
+      alert("เปลี่ยนสถานะเป็น : โอนเหรียญแล้ว");
+                  
+      var account = web3.eth.accounts[0];
+      var value = $('#sendtokenval').val();
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.changeStatus(account,value,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("เปลี่ยนสถานะเป็น : โอนเหรียญแล้ว");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
+          
+          
+    },
+
+    closeContract: function() {
+      var account = web3.eth.accounts[0];
+        var GreenanceInstance;
+              App.contracts.Greenance.deployed().then(function (instance) {     
+                  GreenanceInstance = instance;
+              return GreenanceInstance.closeContract(account,{from: account});
+              }).then(function (result)
+              {
+                  
+                alert("เปลี่ยนสถานะเป็น : ยุติสัญญาแล้ว");
+                  
+              }).catch(function (err) {
+                  console.log(err.message);
+              });
+          
+    },
+
     
-    }).catch(function (err) {
-      console.log(err.message);
-    });
-},
-
-buypomelo: function() {
-      
-  var fullname = ($('#pomeloname').val());
-  var tel = $('#pomelophone').val();
-  var location = $('#pomeloAddress').val();
-
-  var account = web3.eth.accounts[0];
-  var ShopInstance;
-
-  App.contracts.Shop.deployed().then(function (instance) {    
-    ShopInstance = instance;
-
-  return ShopInstance.getpomelostock.call();}).then(function (pomelostock)
-  {
-
-      if (pomelostock > 0) {
-        var ShopInstance;
-
-        App.contracts.Shop.deployed().then(function (instance) {     
-            ShopInstance = instance;
-
-        return ShopInstance.buyPomelo(account,fullname,tel,location,{from: account, gas: 100000});
-        }).then(function (result)
-        {
-          alert("ส้มโอสำเร็จ");
-            
-        }).catch(function (err) {
-            console.log(err.message);
-        });
-
-          
-        }
-
-      
-      else {
-        alert("ส้มโอหมด");
-      }
-    
-    }).catch(function (err) {
-      console.log(err.message);
-    });
-},
     getData: function() {
-            var account = web3.eth.accounts[0];
-            var accounts = account.slice(0,6)+'...'+account.slice(-4,account.length); // cut long address to short address
-            $('#WalletAddress').text(accounts);
-
-          App.contracts.Shop.deployed().then(function (instance) {     
-              ShopInstance = instance;
-  
-          return ShopInstance.getBalance.call();
-          }).then(function (balance)
-          {
-            
-            $('#WalletBalance').text(balance);
-            
-  
-            
-          }).catch(function (err) {
-              console.log(err.message);
-            });
-
-          App.contracts.Shop.deployed().then(function (instance) {     
-              ShopInstance = instance;
-  
-          return ShopInstance.getdurianstock.call();
-          }).then(function (durianstock)
-          {
-            $('#durianstock').text(durianstock);
-            
-  
-            
-          }).catch(function (err) {
-              console.log(err.message);
-            });
-
-          App.contracts.Shop.deployed().then(function (instance) {     
-              ShopInstance = instance;
-  
-          return ShopInstance.getcoconutstock.call();
-          }).then(function (durianstock)
-          {
-            $('#coconutstock').text(durianstock);
-            
-  
-            
-          }).catch(function (err) {
-              console.log(err.message);
-            });
-
-          App.contracts.Shop.deployed().then(function (instance) {    
-              ShopInstance = instance;
-  
-          return ShopInstance.getpomelostock.call();
-          }).then(function (durianstock)
-          {
-            $('#pomelostock').text(durianstock);
-            
-  
-            
-          }).catch(function (err) {
-              console.log(err.message);
-            });
-          
-    },
-    setstock: function() {
-      
-      var durainstock = ($('#durianset').val());
-      var coconutstock = $('#coconutset').val();
-      var pomelostock = $('#pomeloset').val();
-      alert("การอัพเดท stock จำนวน "+durainstock +' '+ coconutstock+ ' ' +  pomelostock +" การอัพเดทสำเร็จ");
       var account = web3.eth.accounts[0];
-      var ShopInstance;
-    
-      App.contracts.Shop.deployed().then(function (instance) {     
-        ShopInstance = instance;
+      var accounts = account.slice(0,6)+'...'+account.slice(-4,account.length); // cut long address to short address
+      $('#WalletAddress').text(accounts);
+      $('#WalletAddress2').text(accounts);
+      $('#WalletAddress3').text(accounts);
 
-      return ShopInstance.setstock(durainstock,coconutstock,pomelostock,{from: account, gas: 100000});
-      }).then(function (result)
-      {
-      alert("การอัพเดทสำเร็จ");
+      var GreenanceInstance;
         
-      }).catch(function (err) {
-        console.log(err.message);
-      });
-  
-      },
-      
+      App.contracts.Greenance.deployed().then(function (instance) {     
+          GreenanceInstance = instance;
+
+      return GreenanceInstance.getBalanceof.call();
+      }).then(function (balance)
+      {
           
-    setbalance: function() {
-      alert("การอัพเดทเริ่มต้น");
-      var userbalance = $('#balanceset').val();
-      var ShopInstance;
-      var account = web3.eth.accounts[0];
-      App.contracts.Shop.deployed().then(function (instance) {     
-        ShopInstance = instance;
-
-      return ShopInstance.setbalance(account,userbalance,{from: account, gas: 100000});
-      }).then(function (result)
-      {
-        
-      alert("การอัพเดทสำเร็จ");
-        
+      $('#WalletBalance').text(balance);
+      $('#WalletBalance2').text(balance);
+      $('#WalletBalance3').text(balance);
+          
       }).catch(function (err) {
           console.log(err.message);
       });
-      }
-  
+    
+
+      App.contracts.Greenance.deployed().then(function (instance) {     
+        GreenanceInstance = instance;
+
+    return GreenanceInstance.getAmount.call();
+    }).then(function (balance)
+    {  
+    $('#Wallet2').text(balance);
+        
+    }).catch(function (err) {
+        console.log(err.message);
+    });
+
+    App.contracts.Greenance.deployed().then(function (instance) {     
+      GreenanceInstance = instance;
+
+    return GreenanceInstance.getWithdraw.call();
+    }).then(function (balance)
+    {  
+    $('#Wallet3').text(balance);
+      
+    }).catch(function (err) {
+        console.log(err.message);
+    });
+
+    App.contracts.Greenance.deployed().then(function (instance) {     
+      GreenanceInstance = instance;
+
+    return GreenanceInstance.getstatus.call();
+    }).then(function (status)
+    {  
+    if(status==0){
+      $('#status').text("รอเอกสาร");
+    }
+    if(status==1){
+      $('#status').text("รอการตรวจสอบ");
+    }
+    if(status==2){
+      $('#status').text("ตรวจสอบผ่านแล้ว");
+    }
+    if(status==3){
+      $('#status').text("การโอนเหรียญสำเร็จแล้ว");
+    }
+    if(status==4){
+      $('#status').text("ยุติสัญญาแล้ว");
+    }
+
+      
+    }).catch(function (err) {
+        console.log(err.message);
+    });
+}
+
 };
 
   $(function() {
